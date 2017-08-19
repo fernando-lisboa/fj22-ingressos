@@ -37,7 +37,7 @@ public class SessaoController {
  private SessaoDao sessaoDao;
  
  @Autowired
- private ImdbClient imdbClient;
+ private ImdbClient client;
  
  @GetMapping("admin/sessao")
  public ModelAndView form(@RequestParam("salaId") Integer salaId, SessaoForm form){
@@ -84,7 +84,7 @@ public class SessaoController {
    
    if (gerenciador.cabe(sessao)) {
    sessaoDao.save(sessao);
-   return new ModelAndView("redirect:/sala/" + form.getSalaId() + "/sessoes");
+   return modelAndView;
    }
     
    return form(form.getSalaId(), form);

@@ -18,7 +18,7 @@ public class GerenciadorDeSessaoTest {
  @Test
  public void garanteQueNaoDevePermitirSessaoNoMesmoHorario() {
   Filme filme = new Filme("Rogue One", Duration.ofMinutes(120), "SCI-FI", BigDecimal.ONE);
-  LocalTime	horario	= LocalTime.now();
+  LocalTime	horario	= LocalTime.parse("10:00:00");
   filme.setDuracao(120);
   Sala sala = new Sala("Eldorado-IMAX", BigDecimal.ONE);
   List<Sessao> sessoes = Arrays.asList(new Sessao(horario, filme, sala));
@@ -31,7 +31,7 @@ public class GerenciadorDeSessaoTest {
  public void garanteQueNaoDevePermitirSessoesTerminandoDentroDoHorarioDeUmaSessaoJaExistente() {
   Filme filme = new Filme("Rogue One", Duration.ofMinutes(120), "SCI-FI", BigDecimal.ONE);
   filme.setDuracao(120);
-  LocalTime horario = LocalTime.now();
+  LocalTime horario = LocalTime.parse("10:00:00");
   Sala sala = new Sala("Eldorado	-	IMAX",	BigDecimal.ONE);
   List<Sessao> sessoes = Arrays.asList(new Sessao(horario, filme, sala));
   Sessao sessao = new Sessao(horario.plusHours(1), filme, sala);
@@ -43,7 +43,7 @@ public class GerenciadorDeSessaoTest {
  public void garanteQueNaoDevePermitirSessoesIniciandoDentroDoHorarioDeUmaSessaoJaExistente() {
   Filme filme = new Filme("Rogue One", Duration.ofMinutes(120),	"SCI-FI", BigDecimal.ONE);
   filme.setDuracao(120);
-  LocalTime horario = LocalTime.now();
+  LocalTime horario = LocalTime.parse("10:00:00");
   Sala sala = new Sala("Eldorado-IMAX",	BigDecimal.ONE);
   List<Sessao> sessoesDaSala = Arrays.asList(new Sessao(horario, filme, sala));
   GerenciadorDeSessao gerenciador = new GerenciadorDeSessao(sessoesDaSala);

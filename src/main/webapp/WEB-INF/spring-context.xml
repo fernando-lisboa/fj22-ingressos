@@ -63,12 +63,12 @@
 		</property>
 	</bean>
 	
-	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
-   		<property name="converters">
-     		<set merge="true">
-      		<bean class="br.com.caelum.ingresso.converter.YearMonthConverter"/>
-     		</set>
-   		</property>
- 	</bean>
+<!-- 	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean"> -->
+<!--    		<property name="converters"> -->
+<!--      		<set merge="true"> -->
+<!--       		<bean class="br.com.caelum.ingresso.converter.YearMonthConverter"/> -->
+<!--      		</set> -->
+<!--    		</property> -->
+<!--  	</bean> -->
 
 </beans>
