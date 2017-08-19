@@ -1,6 +1,7 @@
 package br.com.caelum.ingresso.controller;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -17,7 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.caelum.ingresso.dao.FilmeDao;
+import br.com.caelum.ingresso.dao.SessaoDao;
+import br.com.caelum.ingresso.model.DetalhesDoFilme;
 import br.com.caelum.ingresso.model.Filme;
+import br.com.caelum.ingresso.model.Sessao;
+import br.com.caelum.ingresso.rest.ImdbClient;
 
 /**
  * Created by nando on 03/03/17.
@@ -25,10 +30,43 @@ import br.com.caelum.ingresso.model.Filme;
 @Controller
 public class FilmeController {
 
-
+	
     @Autowired
     private FilmeDao filmeDao;
     
+    @Autowired
+    private SessaoDao sessaoDao;
+    
+    @Autowired
+    private ImdbClient client;
+    
+    
+    
+    @GetMapping("/filme/em-cartaz")
+    public ModelAndView emCartaz(){
+    	ModelAndView modelAndView = new ModelAndView("/filme/em-cartaz");
+    	
+    	modelAndView.addObject("filmes", filmeDao.findAll());
+    		return modelAndView;
+    }
+    
+    @GetMapping("/filme/{id}/detalhe")
+    public ModelAndView detalhes(@PathVariable("id") Integer id){
+    	
+    	ModelAndView modelAndView = new	ModelAndView("/filme/detalhe");
+    	
+    	Filme filme = filmeDao.findOne(id);
+    	
+    	List<Sessao> sessao = sessaoDao.buscaSessaoDoFilme(filme);
+    	
+    	Optional<DetalhesDoFilme> detalhesDoFilme = client.request(filme, DetalhesDoFilme.class);
+    	
+    	modelAndView.addObject("sessoes", sessao);
+    	modelAndView.addObject("detalhes", detalhesDoFilme.orElse(new DetalhesDoFilme()));
+    	
+		return	modelAndView;
+    	
+    }
     
 	@GetMapping({"/admin/filme", "/admin/filme/{id}"})
     public ModelAndView form(@PathVariable("id") Optional<Integer> id, Filme filme){
